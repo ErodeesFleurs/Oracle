@@ -521,6 +521,13 @@ EXTERN_C int setHairDirectives(lua_State* L) {
 	return 0;
 }
 
+EXTERN_C int setHairType(lua_State* L) {
+	std::string group = lua_tostring(L, 1);
+	std::string type = lua_tostring(L, 2);
+	Star::Player::setHairType(base + Star::Player::SETHAIRTYPE)(mainPlayerPointer, &group, &type);
+	return 0;
+}
+
 EXTERN_C int setFacialHair(lua_State* L) {
 	int groupOffset = 0x6F8 + 0xE8, typeOffset = 0x6F8 + 0x108, directivesOffset = 0x6F8 + 0x128;
 
@@ -538,8 +545,7 @@ EXTERN_C int setFacialHair(lua_State* L) {
 	if (groupState.second) groupStr = groupState.first;
 	if (typeState.second) typeStr = typeState.first;
 	if (directivesState.second) directivesStr = directivesState.first;
-
-	Star::Player::setFacialHair(base + Star::Player::SETFACIALMASK)(mainPlayerPointer, &groupStr, &typeStr, &directivesStr);
+	Star::Player::setFacialHair(base + Star::Player::SETFACIALHAIR)(mainPlayerPointer, &groupStr, &typeStr, &directivesStr);
 	return 0;
 }
 
@@ -1057,6 +1063,8 @@ static const struct luaL_Reg luaFuncs[] = {
 	{"setEmoteDirectives",setEmoteDirectives},
 	{"setFacialHair",setFacialHair},
 	{"setFacialMask",setFacialMask},
+	{"setHairType",setHairType},
+	{"setHairDirectives",setHairDirectives},
 	{"forceNude",forceNude},
 	{"setTeamPortrait",setTeamPortrait},
 	{"invitePlayer",invitePlayer},
